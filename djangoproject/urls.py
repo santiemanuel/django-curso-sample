@@ -20,5 +20,5 @@ import learning.urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("courses/", include("learning.urls")),
+    path("", include("learning.urls")),
 ]
