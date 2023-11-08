@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Listado de Cursos
+{% endblock %}
+
+{% block content %}
+    <h1>{{ titulo }}</h1>
+    <ul>
+        {% for curso in cursos %}
+            <li>
+                <div class="curso-title">{{ curso.nombre }}</div>
+                <div class="curso-details">
+                    Fecha de publicación: {{ curso.fecha_publicacion|date:"d/m/Y" }} | Precio: <strong>{{ curso.precio }}</strong>
+                </div>
+            </li>
+        {% empty %}
+            <li>No hay cursos disponibles</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
