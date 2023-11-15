@@ -5,7 +5,7 @@ class CursoForm(forms.ModelForm):
 
     instructor = forms.ModelChoiceField(
         queryset=Instructor.objects.all(),
-        blank=True,
+        required=False,
         empty_label="Seleccione el profesor",
         widget=forms.Select(
             attrs={
