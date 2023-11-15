@@ -9,7 +9,14 @@
     <ul>
         {% for curso in cursos %}
             <li>
-                <div class="curso-title">{{ curso.nombre }}</div>
+                <div class="curso-container">
+                    <div class="curso-title">{{ curso.nombre }}</div>
+                    <div class="curso-actions">
+                        <a href="{% url 'update_curso' curso.id %}" class="btn">Editar</a>
+                        <a href="{% url 'delete_curso' curso.id %}" class="btn">Eliminar</a>
+                        <a href="{% url 'detail_curso' curso.id %}" class="btn">Detalles</a>
+                    </div>
+                </div>
                 <div class="curso-details">
                     Fecha de publicación: {{ curso.fecha_publicacion|date:"d/m/Y" }} | Precio: <strong>{{ curso.precio }}</strong>
                 </div>

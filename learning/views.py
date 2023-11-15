@@ -7,6 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 import datetime
 from .forms.estudiante_form import EstudianteForm
+from .forms.curso_form import CursoForm
 
 # Estilo base para aplicar a todas las respuestas
 base_style = """
@@ -101,6 +102,42 @@ def detail_curso(request, curso_id):
 
     return render(request, 'curso/curso_detail.html', {'curso': curso})
 
+def create_curso(request):
+    if request.method == 'POST':
+        form = CursoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("list_cursos")
+    else:
+        form = CursoForm()
+
+    context = {
+        'titulo': "Nuevo Curso",
+        'form': form,
+        'submit': 'Crear Curso'
+    }
+    return render(request, "curso/curso_form.html", context)
+
+def update_curso(request, curso_id):
+    curso = get_object_or_404(Curso, id=curso_id)
+    if request.method == 'POST':
+        form = CursoForm(request.POST, instance=curso)
+        if form.is_valid():
+            form.save()
+            return redirect("list_cursos")
+    else:
+        form = CursoForm(instance=curso)
+    context = {
+        'titulo': "Actualización de Curso",
+        'form': form,
+        'submit': 'Actualizar Curso'
+    }
+    return render(request, "curso/curso_form.html", context)
+
+def delete_curso(request, curso_id):
+    curso = get_object_or_404(Curso, id=curso_id)
+    curso.delete()
+    return redirect("list_cursos")
 
 def create_estudiante(request):
     if request.method == 'POST':
