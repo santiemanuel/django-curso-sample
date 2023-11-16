@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="curso-details">
-                    Fecha de publicación: {{ curso.fecha_publicacion|date:"d/m/Y" }} | Precio: <strong>{{ curso.precio }}</strong>
+                    Fecha de publicación: {{ curso.fecha_publicacion|date:"d/m/Y" }} | Precio: <strong>$ {{ curso.precio }}</strong>
                 </div>
             </li>
         {% empty %}
