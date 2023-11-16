@@ -6,8 +6,10 @@ from .models import Curso, Estudiante, Inscripcion
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 import datetime
-from .forms.estudiante_form import EstudianteForm
+from .forms.estudiante_form import EstudianteForm, BusquedaEstudianteForm
 from .forms.curso_form import CursoForm
+from .forms.inscripcion_form import InscripcionForm
+
 
 # Estilo base para aplicar a todas las respuestas
 base_style = """
@@ -139,6 +141,48 @@ def update_curso(request, curso_id):
         'submit': 'Actualizar Curso'
     }
     return render(request, "curso/curso_form.html", context)
+
+def inscripcion(request):
+    inscripcion_form = InscripcionForm()
+
+    if request.method == 'POST':
+        inscripcion_form = InscripcionForm(request.POST)
+        if inscripcion_form.is_valid():
+            inscripcion_form.save()
+            return redirect('list_inscripciones')
+    
+    context = {
+        'form': inscripcion_form,
+    }
+    return render(request, 'estudiante/inscripcion_form.html', context)
+
+def inscripcion_por_nombre(request):
+    estudiantes = None
+    inscripcion_form = InscripcionForm()
+    inscripcion_form.fields['estudiante'].queryset = Estudiante.objects.none()
+
+    if request.method == 'GET' and 'apellido' in request.GET:
+        busqueda_form = BusquedaEstudianteForm(request.GET)
+        if busqueda_form.is_valid():
+            apellido = busqueda_form.cleaned_data['apellido']
+            if apellido:
+                estudiantes = Estudiante.objects.filter(nombre__icontains=apellido)
+                inscripcion_form.fields['estudiante'].queryset = estudiantes
+    else:
+        busqueda_form = BusquedaEstudianteForm()
+    
+    if request.method == 'POST':
+        inscripcion_form = InscripcionForm(request.POST)
+        if inscripcion_form.is_valid():
+            inscripcion_form.save()
+            return redirect('list_inscripciones')
+    
+    context = {
+        'busqueda_form' : busqueda_form,
+        'inscripcion_form': inscripcion_form,
+        'estudiantes': estudiantes,
+    }
+    return render(request, 'estudiante/inscripcion_form.html', context)
 
 def delete_curso(request, curso_id):
     curso = get_object_or_404(Curso, id=curso_id)
