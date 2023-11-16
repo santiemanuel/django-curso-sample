@@ -55,6 +55,7 @@ class Curso(models.Model):
     fecha_publicacion = models.DateField()
     instructor = models.ForeignKey(Instructor, on_delete=models.SET_NULL, null=True, blank=True)
     inscripciones = models.ManyToManyField(Estudiante, through="Inscripcion")
+    is_deleted = models.BooleanField(default=False)
 
     # free_courses = FreeCoursesManager()
     # premium_courses = PremiumCoursesManager()

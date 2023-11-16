@@ -72,9 +72,15 @@ base_style = """
 
 
 def list_cursos(request):
-    cursos = Curso.objects.all()
+    cursos = Curso.objects.filter(is_deleted=False)
     context = {'cursos': cursos, 'titulo': 'Listado de Cursos'}
     return render(request, "curso/cursos_list.html", context)
+
+
+def list_cursos_eliminados(request):
+    cursos = Curso.objects.filter(is_deleted=True)
+    context = {'cursos': cursos, 'titulo': 'Listado de Cursos Eliminados'}
+    return render(request, "curso/cursos_list_restore.html", context)
 
 
 # Vista para mostrar información detallada de un curso específico
@@ -138,6 +144,18 @@ def delete_curso(request, curso_id):
     curso = get_object_or_404(Curso, id=curso_id)
     curso.delete()
     return redirect("list_cursos")
+
+def hide_curso(request, curso_id):
+    curso = get_object_or_404(Curso, id=curso_id)
+    curso.is_deleted = True
+    curso.save()
+    return redirect("list_cursos")
+
+def restore_curso(request, curso_id):
+    curso = get_object_or_404(Curso, id=curso_id)
+    curso.is_deleted = False
+    curso.save()
+    return redirect("list_cursos_eliminados")
 
 def create_estudiante(request):
     if request.method == 'POST':

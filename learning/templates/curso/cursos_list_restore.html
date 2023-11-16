@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Listado de Cursos
+    Listado de Cursos Eliminados
 {% endblock %}
 
 {% block content %}
@@ -12,9 +12,7 @@
                 <div class="curso-container">
                     <div class="curso-title">{{ curso.nombre }}</div>
                     <div class="curso-actions">
-                        <a href="{% url 'update_curso' curso.id %}" class="btn">Editar</a>
-                        <a href="{% url 'hide_curso' curso.id %}" class="btn btn-delete">Eliminar</a>
-                        <a href="{% url 'detail_curso' curso.id %}" class="btn">Detalles</a>
+                        <a href="{% url 'show_curso' curso.id %}" class="btn">Restaurar</a>
                     </div>
                 </div>
                 <div class="curso-details">
@@ -22,7 +20,7 @@
                 </div>
             </li>
         {% empty %}
-            <li>No hay cursos disponibles</li>
+            <li>No hay cursos eliminados</li>
         {% endfor %}
     </ul>
 {% endblock %}
