@@ -1,4 +1,6 @@
 from django.urls import path, register_converter
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 from . import converters
 
@@ -32,5 +34,8 @@ urlpatterns = [
         "cursos/<daterange:date_range>/",
         views.cursos_por_fecha,
         name="cursos-por-fecha",
-    ),
+    )
 ]
+
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -184,6 +184,8 @@ def inscripcion_por_nombre(request):
     }
     return render(request, 'estudiante/inscripcion_form.html', context)
 
+
+
 def delete_curso(request, curso_id):
     curso = get_object_or_404(Curso, id=curso_id)
     curso.delete()
