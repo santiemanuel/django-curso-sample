@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <title>
+                {% block title %}
+                    Plataforma de Aprendizaje
+                {% endblock %}
+            </title>
+        </head>
+        <body>
+            {% block content %}{% endblock %}
+        </body>
+        <style>
+            body { 
+                font-family: Roboto, sans-serif;
+                line-height: 1.6;
+                margin: 20px; 
+            }
+        
+            h1 { 
+                color: #333;
+                margin-bottom: 20px;
+            }
+        
+            ul {
+                list-style-type: none;
+                padding: 0;
+            }
+        
+            li {
+                background: #ffd5ae;
+                margin: 5px 0;
+                padding: 10px;
+                width: 50%;
+                border-radius: 16px;
+                margin-bottom: 16px;
+            }
+        
+            .curso-nombre {
+                font-size: 1.2em;
+                margin: 0;
+            }
+        
+            .curso-title {
+                font-size: 1.6em;
+                font-weight: bold;
+                margin: 0;
+            }
+        
+            .curso-details {
+                font-size: 0.8em;
+                color: #777;
+                margin-top: 4px;
+            }
+        
+            .fecha-inscripcion {
+                font-size: 0.8em;
+                color: #777;
+                margin-top: 4px;
+            }
+        
+            p {
+                color: #666;
+            }
+        
+            a {
+                color: #8baccc;
+            }
+        </style>
+    </html>

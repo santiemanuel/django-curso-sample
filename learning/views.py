@@ -1,9 +1,10 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from .models import Curso, Estudiante, Inscripcion
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
 import datetime
 
 # Estilo base para aplicar a todas las respuestas
@@ -70,25 +71,12 @@ base_style = """
 
 def list_cursos(request):
     cursos = Curso.objects.all()
-    response_html = base_style + "<h1>Listado de Cursos</h1><ul>"
-
-    for curso in cursos:
-        fecha_publicacion = curso.fecha_publicacion.strftime("%d/%m/%Y")
-        response_html += f"""
-            <li>
-                <div class="curso-title">{curso.nombre}</div>
-                <div class="curso-details">
-                    Fecha de Publicación: {fecha_publicacion} | Precio: <strong>{curso.precio}$</strong>
-                </div>
-            </li>
-        """
-
-    response_html += "</ul>"
-    return HttpResponse(response_html)
+    context = {'cursos': cursos, 'titulo': 'Listado de Cursos'}
+    return render(request, "curso/cursos_list.html", context)
 
 
 # Vista para mostrar información detallada de un curso específico
-def detail_curso(request, curso_id):
+def detail_curso_pre(request, curso_id):
     try:
         curso = Curso.objects.get(pk=curso_id)
         response_html = (
@@ -103,7 +91,14 @@ def detail_curso(request, curso_id):
         return HttpResponse(response_html)
     except Curso.DoesNotExist:
         return HttpResponse(base_style + "Curso no encontrado", status=404)
+    
+def detail_curso(request, curso_id):
+    try:
+        curso = Curso.objects.get(id=curso_id)
+    except Curso.DoesNotExist:
+        curso = None
 
+    return render(request, 'curso/curso_detail.html', {'curso': curso})
 
 # Vista para listar todos los estudiantes
 def list_estudiantes(request):
