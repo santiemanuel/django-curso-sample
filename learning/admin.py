@@ -18,8 +18,8 @@ class CursoAdmin(admin.ModelAdmin):
 
 @admin.register(Estudiante)
 class EstudianteAdmin(admin.ModelAdmin):
-    fields = ["nombre", "email"]
-    list_display = ("nombre", "email")
+    fields = ["nombre", "email", 'avatar']
+    list_display = ("nombre", "email", 'avatar')
     search_fields = ("nombre", "email")
     ordering = ("nombre", "email")
 

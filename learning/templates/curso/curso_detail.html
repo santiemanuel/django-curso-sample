@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}
     {% if curso %}
         {{ curso.nombre }}
@@ -11,6 +13,7 @@
 {% block content %}
     {% if curso %}
         <h1>Detalle del Curso: {{ curso.nombre }}</h1>
+        <img src="{% static 'learning/img/foto.png' %}" alt="curso"/>
         <p><strong>Descripción:</strong>{{ curso.descripcion }}</p>
         <p><strong>Precio: $</strong> {{ curso.precio }} </p>
         <p><strong>Fecha de Publicación:</strong> {{ curso.fecha_publicacion }}</p>

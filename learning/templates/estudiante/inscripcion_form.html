@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Nueva Inscripción
+{% endblock %}
+
+{% block content %}
+    <form method="get">
+        {{ busqueda_form.as_p }}
+        <button type="submit">Buscar</button>
+    </form>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ inscripcion_form.as_p }}
+        <button type="submit">Inscribir</button>
+    </form>
+{% endblock %}

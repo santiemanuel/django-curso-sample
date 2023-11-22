@@ -42,6 +42,7 @@ class Instructor(models.Model):
 class Estudiante(models.Model):
     nombre = models.CharField(max_length=150)
     email = models.EmailField(unique=True)
+    avatar = models.ImageField(upload_to="avatar", null=True)
 
     def __str__(self):
         return f"{self.nombre} ({self.email})"
@@ -55,6 +56,7 @@ class Curso(models.Model):
     fecha_publicacion = models.DateField()
     instructor = models.ForeignKey(Instructor, on_delete=models.SET_NULL, null=True, blank=True)
     inscripciones = models.ManyToManyField(Estudiante, through="Inscripcion")
+    is_deleted = models.BooleanField(default=False)
 
     # free_courses = FreeCoursesManager()
     # premium_courses = PremiumCoursesManager()
