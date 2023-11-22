@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Listado de Cursos de {{ estudiante.nombre }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ titulo }}</h1>
+    <ul>
+        {% for inscripcion in inscripciones %}
+            <li>
+                <div class="curso-nombre">{{ inscripcion.estudiante.nombre }}</div>
+                <div class="fecha-inscripcion">Inscrito el {{ inscripcion.fecha_inscripcion|date:"d/m/Y" }}</div>
+            </li>
+        {% empty %}
+            <li>No hay estudiantes inscritos</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

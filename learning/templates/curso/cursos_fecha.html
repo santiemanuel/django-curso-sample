@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Cursos a dictarse en el rango: {{ start_month }} a {{ end_month }}</h1>
+    {% for mes, cursos in cursos_por_mes.items %}
+        <h2>{{ mes }}</h2>
+        <ul>
+            {% for curso in cursos %}
+                <li class='item-curso'>
+                    <div class="curso-nombre">{{ curso.nombre }}</div>
+                    <div class="fecha-inscripcion">Fecha de publicación: {{ curso.fecha_publicacion|date:"d/m/Y" }}</div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% endblock %}

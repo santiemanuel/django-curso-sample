@@ -1,108 +1,27 @@
 from django.shortcuts import render, redirect
 
-# Create your views here.
 from django.http import HttpResponse, Http404
 from .models import Curso, Estudiante, Inscripcion
-from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
-import datetime
 from .forms.estudiante_form import EstudianteForm, BusquedaEstudianteForm
 from .forms.curso_form import CursoForm
 from .forms.inscripcion_form import InscripcionForm
 
 
-# Estilo base para aplicar a todas las respuestas
-base_style = """
-<style>
-    body { 
-        font-family: Roboto, sans-serif;
-        line-height: 1.6;
-        margin: 20px; 
-    }
-
-    h1 { 
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    li {
-        background: #ffd5ae;
-        margin: 5px 0;
-        padding: 10px;
-        width: 50%;
-        border-radius: 16px;
-        margin-bottom: 16px;
-    }
-
-    .curso-nombre {
-        font-size: 1.2em;
-        margin: 0;
-    }
-
-    .curso-title {
-        font-size: 1.6em;
-        font-weight: bold;
-        margin: 0;
-    }
-
-    .curso-details {
-        font-size: 0.8em;
-        color: #777;
-        margin-top: 4px;
-    }
-
-    .fecha-inscripcion {
-        font-size: 0.8em;
-        color: #777;
-        margin-top: 4px;
-    }
-
-    p {
-        color: #666;
-    }
-
-    a {
-        color: #8baccc;
-    }
-</style>
-"""
-
+# Cursos
 
 def list_cursos(request):
+    """
+    Listado de cursos no eliminados
+    """
     cursos = Curso.objects.filter(is_deleted=False)
     context = {'cursos': cursos, 'titulo': 'Listado de Cursos'}
     return render(request, "curso/cursos_list.html", context)
 
-
-def list_cursos_eliminados(request):
-    cursos = Curso.objects.filter(is_deleted=True)
-    context = {'cursos': cursos, 'titulo': 'Listado de Cursos Eliminados'}
-    return render(request, "curso/cursos_list_restore.html", context)
-
-
-# Vista para mostrar información detallada de un curso específico
-def detail_curso_pre(request, curso_id):
-    try:
-        curso = Curso.objects.get(pk=curso_id)
-        response_html = (
-            base_style
-            + f"""
-            <h1>Detalle del Curso: {curso.nombre}</h1>
-            <p><strong>Descripción:</strong> {curso.descripcion}</p>
-            <p><strong>Precio:</strong> {curso.precio}$</p>
-            <p><strong>Fecha de Publicación:</strong> {curso.fecha_publicacion}</p>
-        """
-        )
-        return HttpResponse(response_html)
-    except Curso.DoesNotExist:
-        return HttpResponse(base_style + "Curso no encontrado", status=404)
-    
 def detail_curso(request, curso_id):
+    """
+    Detalle de un curso
+    """
     try:
         curso = Curso.objects.get(id=curso_id)
     except Curso.DoesNotExist:
@@ -111,6 +30,9 @@ def detail_curso(request, curso_id):
     return render(request, 'curso/curso_detail.html', {'curso': curso})
 
 def create_curso(request):
+    """
+    Creación de un curso
+    """
     if request.method == 'POST':
         form = CursoForm(request.POST)
         if form.is_valid():
@@ -127,6 +49,9 @@ def create_curso(request):
     return render(request, "curso/curso_form.html", context)
 
 def update_curso(request, curso_id):
+    """
+    Actualización de un curso
+    """
     curso = get_object_or_404(Curso, id=curso_id)
     if request.method == 'POST':
         form = CursoForm(request.POST, instance=curso)
@@ -142,7 +67,80 @@ def update_curso(request, curso_id):
     }
     return render(request, "curso/curso_form.html", context)
 
+def delete_curso(request, curso_id):
+    """
+    Eliminación de un curso
+    """
+    curso = get_object_or_404(Curso, id=curso_id)
+    curso.delete()
+    return redirect("list_cursos")
+
+def hide_curso(request, curso_id):
+    """
+    Ocultar un curso
+    """
+    curso = get_object_or_404(Curso, id=curso_id)
+    curso.is_deleted = True
+    curso.save()
+    return redirect("list_cursos")
+
+def show_curso(request, curso_id):
+    """
+    Restaurar un curso
+    """
+    curso = get_object_or_404(Curso, id=curso_id)
+    curso.is_deleted = False
+    curso.save()
+    return redirect("list_cursos_eliminados")
+
+def list_cursos_eliminados(request):
+    """
+    Listado de cursos eliminados
+    """
+    cursos = Curso.objects.filter(is_deleted=True)
+    context = {'cursos': cursos, 'titulo': 'Listado de Cursos Eliminados'}
+    return render(request, "curso/cursos_list_restore.html", context)
+
+# Estudiantes
+
+def list_estudiantes(request):
+    estudiantes = Estudiante.objects.all()
+    titulo = "Listado de Estudiantes"
+    context = {'estudiantes': estudiantes, 'titulo': titulo}
+    return render(request, "estudiante/estudiantes_list.html", context)
+
+
+def create_estudiante(request):
+    if request.method == 'POST':
+        form = EstudianteForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("list_estudiantes")
+    else:
+        form = EstudianteForm()
+
+    context = {
+        'titulo': "Nuevo Estudiante",
+        'form': form,
+        'submit': 'Crear Estudiante'
+    }
+    return render(request, "estudiante/estudiante_form.html", context)
+
+# Inscripciones
+
+def list_inscripciones(request):
+    """
+    Vista para listar todas las inscripciones
+    """
+    inscripciones = Inscripcion.objects.all().select_related("curso", "estudiante")
+    titulo = "Listado de Inscripciones"
+    context = {'inscripciones': inscripciones, 'titulo': titulo}
+    return render(request, "inscripcion/inscripciones_list.html", context)
+
 def inscripcion(request):
+    """
+    Vista para inscribir un estudiante a un curso
+    """
     inscripcion_form = InscripcionForm()
 
     if request.method == 'POST':
@@ -154,9 +152,12 @@ def inscripcion(request):
     context = {
         'form': inscripcion_form,
     }
-    return render(request, 'estudiante/inscripcion_form.html', context)
+    return render(request, 'inscripcion/inscripcion_form.html', context)
 
 def inscripcion_por_nombre(request):
+    """
+    Vista para inscribir un estudiante a un curso por su nombre
+    """
     estudiantes = None
     inscripcion_form = InscripcionForm()
     inscripcion_form.fields['estudiante'].queryset = Estudiante.objects.none()
@@ -184,122 +185,47 @@ def inscripcion_por_nombre(request):
     }
     return render(request, 'estudiante/inscripcion_form.html', context)
 
+# Informes inscripciones/estudiantes
 
-
-def delete_curso(request, curso_id):
-    curso = get_object_or_404(Curso, id=curso_id)
-    curso.delete()
-    return redirect("list_cursos")
-
-def hide_curso(request, curso_id):
-    curso = get_object_or_404(Curso, id=curso_id)
-    curso.is_deleted = True
-    curso.save()
-    return redirect("list_cursos")
-
-def restore_curso(request, curso_id):
-    curso = get_object_or_404(Curso, id=curso_id)
-    curso.is_deleted = False
-    curso.save()
-    return redirect("list_cursos_eliminados")
-
-def create_estudiante(request):
-    if request.method == 'POST':
-        form = EstudianteForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect("list_estudiantes")
-    else:
-        form = EstudianteForm()
-
-    context = {
-        'titulo': "Nuevo Estudiante",
-        'form': form,
-        'submit': 'Crear Estudiante'
-    }
-    return render(request, "estudiante/estudiante_form.html", context)
-
-
-
-# Vista para listar todos los estudiantes
-def list_estudiantes(request):
-    estudiantes = Estudiante.objects.all()
-    response_html = base_style + "<h1>Listado de Estudiantes</h1><ul>"
-    response_html += "".join(
-        [
-            f'<li>{estudiante.nombre} - <a href="{estudiante.email}"> {estudiante.email}</a></li>'
-            for estudiante in estudiantes
-        ]
-    )
-    response_html += "</ul>"
-    return HttpResponse(response_html)
-
-
-# Vista para mostrar los cursos en los que está inscrito un estudiante en particular, incluyendo la fecha de inscripción
 def estudiante_cursos(request, estudiante_id):
+    """
+    Vista para mostrar los cursos en los que está inscrito un estudiante en particular, incluyendo la fecha de inscripción
+    """
     try:
         estudiante = Estudiante.objects.get(pk=estudiante_id)
         inscripciones = Inscripcion.objects.filter(
             estudiante=estudiante
         ).select_related("curso")
-        response_html = base_style + f"<h1>Cursos de {estudiante.nombre}</h1><ul>"
+        titulo = f"Cursos de {estudiante.nombre}"
 
-        for inscripcion in inscripciones:
-            fecha_inscripcion = inscripcion.fecha_inscripcion.strftime(
-                "%d/%m/%Y"
-            )  # Formatea la fecha
-            response_html += f"""
-                <li>
-                    <div class="curso-nombre">{inscripcion.curso.nombre}</div>
-                    <div class="fecha-inscripcion">Inscrito el {fecha_inscripcion}</div>
-                </li>
-            """
-
-        response_html += "</ul>"
-        return HttpResponse(response_html)
+        context = {
+            'estudiante': estudiante,
+            'inscripciones': inscripciones,
+            'titulo': titulo
+        }
+        return render(request, 'estudiante/estudiantes_cursos.html', context)
     except Estudiante.DoesNotExist:
-        return HttpResponse(base_style + "Estudiante no encontrado", status=404)
+        return HttpResponse("Estudiante no encontrado", status=404)
 
-
-# Vista para listar todas las inscripciones
-def list_inscripciones(request):
-    inscripciones = Inscripcion.objects.all().select_related("curso", "estudiante")
-    response_html = base_style + "<h1>Listado de Inscripciones</h1><ul>"
-    response_html += "".join(
-        [
-            f"<li>{inscripcion.estudiante.nombre} inscrito en {inscripcion.curso.nombre}</li>"
-            for inscripcion in inscripciones
-        ]
-    )
-    response_html += "</ul>"
-    return HttpResponse(response_html)
-
-
-# Vista para mostrar los estudiantes inscritos en un curso específico
 def curso_estudiantes(request, curso_id):
+    """
+    Vista para mostrar los estudiantes inscritos en un curso específico
+    """
     try:
         curso = Curso.objects.get(pk=curso_id)
         inscripciones = Inscripcion.objects.filter(curso=curso).select_related(
             "estudiante"
         )
-        response_html = base_style + f"<h1>Estudiantes inscritos en {curso.nombre}</h1>"
+        titulo = f"Estudiantes inscritos en {curso.nombre}"
 
-        if inscripciones.exists():  # Verifica si hay inscripciones
-            response_html += "<ul>"
-            response_html += "".join(
-                [
-                    f"<li>{inscripcion.estudiante.nombre}</li>"
-                    for inscripcion in inscripciones
-                ]
-            )
-            response_html += "</ul>"
-        else:
-            response_html += "<p>Todavía no hay estudiantes inscritos.</p>"
-
-        return HttpResponse(response_html)
+        context = {
+            'curso': curso,
+            'inscripciones': inscripciones,
+            'titulo': titulo
+        }
+        return render(request, 'curso/cursos_estudiantes.html', context)
     except Curso.DoesNotExist:
-        return HttpResponse(base_style + "Curso no encontrado", status=404)
-
+        return HttpResponse("Curso no encontrado", status=404)   
 
 def cursos_por_fecha(request, date_range):
     start_date, end_date = date_range
@@ -332,27 +258,13 @@ def cursos_por_fecha(request, date_range):
             cursos_por_mes[mes_es] = []
         cursos_por_mes[mes_es].append(curso)
 
-    # Inicio de respuesta HTML.
     start_month = mes_spanish[start_date.strftime("%B")]
     end_month = mes_spanish[end_date.strftime("%B")]
-    response_html = (
-        f"<h1>Cursos a dictarse en el rango: {start_month} a {end_month}</h1>"
-    )
 
-    for mes_esp in mes_spanish.values():
-        if mes_esp in cursos_por_mes:
-            response_html += f"<h2>{mes_esp}</h2><ul>"
-            for curso in cursos_por_mes[mes_esp]:
-                fecha_publicacion = curso.fecha_publicacion.strftime(
-                    "%d/%m/%Y"
-                )  # Formatea la fecha
-                response_html += f"""
-                    <li class='item-curso'>
-                        <div class="curso-nombre">{curso.nombre}</div>
-                        <div class="fecha-inscripcion">Fecha de publicación: {fecha_publicacion}</div>
-                    </li>
-                """
-            response_html += "</ul>"
+    context = {
+        'cursos_por_mes': cursos_por_mes,
+        'start_month': start_month,
+        'end_month': end_month
+    }
 
-    response_html = base_style + response_html
-    return HttpResponse(response_html)
+    return render(request, 'curso/cursos_fecha.html', context)
