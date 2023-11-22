@@ -12,13 +12,15 @@ class EstudianteForm(forms.ModelForm):
 
     class Meta:
         model = Estudiante
-        fields = ['nombre', 'email']
+        fields = ['nombre', 'email', 'avatar']
         labels = {
             'nombre': 'Nombre',
             'email': 'Correo electrónico',
+            'avatar': 'Imagen de perfil',
         }
         widgets = {
-            'email': forms.EmailInput(attrs={'placeholder': 'Ingrese su correo'})
+            'email': forms.EmailInput(attrs={'placeholder': 'Ingrese su correo'}),
+            'avatar': forms.ClearableFileInput(attrs={'placeholder': 'Seleccione una imagen de perfil'}),
         }
 
 
