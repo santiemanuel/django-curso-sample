@@ -31,17 +31,35 @@ class CursoByTopicManager(models.Manager):
         return self.filter(nombre__icontains=topic_name)
 
 
+class Instructor(models.Model):
+    nombre = models.CharField(max_length=100)
+    bio = models.TextField()
+
+
+class Estudiante(models.Model):
+    nombre = models.CharField(max_length=150)
+    email = models.EmailField(unique=True)
+
+
 # Create your models here.
 class Curso(models.Model):
     nombre = models.CharField(max_length=120)
     descripcion = models.TextField()
     precio = models.IntegerField()  # $250 $250.00, $262.97 => 262.97
     fecha_publicacion = models.DateField()
+    instructor = models.ForeignKey(Instructor, on_delete=models.SET_NULL, null=True)
+    inscripciones = models.ManyToManyField(Estudiante, through="Inscripcion")
 
-    free_courses = FreeCoursesManager()
-    premium_courses = PremiumCoursesManager()
-    by_year = CursoByYearManager()
-    by_topic = CursoByTopicManager()
+    # free_courses = FreeCoursesManager()
+    # premium_courses = PremiumCoursesManager()
+    # by_year = CursoByYearManager()
+    # by_topic = CursoByTopicManager()
 
     def __str__(self):
-        return f"Nombre de curso: {self.nombre} \nDescripción: {self.descripcion}\nPrecio: {self.precio}\nFecha de publicación:{self.fecha_publicacion}"
+        return f"{self.nombre}"
+
+
+class Inscripcion(models.Model):
+    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+    fecha_inscripcion = models.DateField(auto_now_add=True)
