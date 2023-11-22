@@ -53,7 +53,7 @@ class Curso(models.Model):
     descripcion = models.TextField()
     precio = models.IntegerField()  # $250 $250.00, $262.97 => 262.97
     fecha_publicacion = models.DateField()
-    instructor = models.ForeignKey(Instructor, on_delete=models.SET_NULL, null=True)
+    instructor = models.ForeignKey(Instructor, on_delete=models.SET_NULL, null=True, blank=True)
     inscripciones = models.ManyToManyField(Estudiante, through="Inscripcion")
 
     # free_courses = FreeCoursesManager()
