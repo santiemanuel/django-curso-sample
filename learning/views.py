@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.http import HttpResponse, Http404
@@ -6,6 +6,7 @@ from .models import Curso, Estudiante, Inscripcion
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 import datetime
+from .forms.estudiante_form import EstudianteForm
 
 # Estilo base para aplicar a todas las respuestas
 base_style = """
@@ -99,6 +100,25 @@ def detail_curso(request, curso_id):
         curso = None
 
     return render(request, 'curso/curso_detail.html', {'curso': curso})
+
+
+def create_estudiante(request):
+    if request.method == 'POST':
+        form = EstudianteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("list_estudiantes")
+    else:
+        form = EstudianteForm()
+
+    context = {
+        'titulo': "Nuevo Estudiante",
+        'form': form,
+        'submit': 'Crear Estudiante'
+    }
+    return render(request, "estudiante/estudiante_form.html", context)
+
+
 
 # Vista para listar todos los estudiantes
 def list_estudiantes(request):

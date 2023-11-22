@@ -8,6 +8,7 @@ register_converter(converters.DateRangeConverter, "daterange")
 urlpatterns = [
     path("cursos/", views.list_cursos, name="list_cursos"),
     path("cursos/<int:curso_id>/", views.detail_curso, name="detail_curso"),
+    path("estudiantes/crear", views.create_estudiante, name="create_estudiante"),
     path("estudiantes/", views.list_estudiantes, name="list_estudiantes"),
     path(
         "estudiantes/<int:estudiante_id>/cursos/",
