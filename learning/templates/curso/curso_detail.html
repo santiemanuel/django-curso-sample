@@ -12,7 +12,7 @@
     {% if curso %}
         <h1>Detalle del Curso: {{ curso.nombre }}</h1>
         <p><strong>Descripción:</strong>{{ curso.descripcion }}</p>
-        <p><strong>Precio:</strong> {{ curso.precio }}$</p>
+        <p><strong>Precio: $</strong> {{ curso.precio }} </p>
         <p><strong>Fecha de Publicación:</strong> {{ curso.fecha_publicacion }}</p>
     {% else %}
         <h1>Error. El ID de curso no existe.</h1>
