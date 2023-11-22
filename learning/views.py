@@ -205,7 +205,7 @@ def restore_curso(request, curso_id):
 
 def create_estudiante(request):
     if request.method == 'POST':
-        form = EstudianteForm(request.POST)
+        form = EstudianteForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect("list_estudiantes")
