@@ -1,7 +1,28 @@
-from django.urls import path
+from django.urls import path, register_converter
 from . import views
+from . import converters
+
+register_converter(converters.DateRangeConverter, "daterange")
+
 
 urlpatterns = [
-    path("all_courses/", views.all_courses, name="all-courses"),
-    path("premium_courses/", views.premium_courses, name="premium-courses"),
+    path("cursos/", views.list_cursos, name="list_cursos"),
+    path("cursos/<int:curso_id>/", views.detail_curso, name="detail_curso"),
+    path("estudiantes/", views.list_estudiantes, name="list_estudiantes"),
+    path(
+        "estudiantes/<int:estudiante_id>/cursos/",
+        views.estudiante_cursos,
+        name="estudiante_cursos",
+    ),
+    path("inscripciones/", views.list_inscripciones, name="list_inscripciones"),
+    path(
+        "cursos/<int:curso_id>/estudiantes/",
+        views.curso_estudiantes,
+        name="curso_estudiantes",
+    ),
+    path(
+        "cursos/<daterange:date_range>/",
+        views.cursos_por_fecha,
+        name="cursos-por-fecha",
+    ),
 ]
