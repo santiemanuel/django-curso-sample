@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Perfil de {{ estudiante.nombre }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="header">
+            <div class="header-content-top"></div>
+            <div class="header-content-bottom animate-gradient">
+                <div class="header-content">
+                    <span class="avatar">
+                        {% if estudiante.avatar %}
+                            <img src="{{ estudiante.avatar.url }}" alt="Avatar" class="avatar-inner">
+                        {% else %}
+                            <span class="avatar-inner">{{ estudiante.nombre }}</span>
+                        {% endif %}
+                    </span>
+                    <div class="info">
+                        <div>
+                            <h1 class="name">{{ estudiante.nombre }}</h1>
+                            <p class="email">{{ estudiante.email }}</p>
+                        </div>
+                        <i class="edit fa-regular fa-pen-to-square"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="item">
+                <label class="label">Nacimiento</label>
+                <p class="value">{{ estudiante.dob }}</p>
+            </div>
+            <div class="item">
+                <label class="label">Biografía</label>
+                <p class="value">{{ estudiante.bio }}</p>
+            </div>
+            <div class="item">
+                <label class="label">Intereses</label>
+                <p class="value">{{ estudiante.interest }}</p>
+            </div>
+            <div class="item">
+                <label class="label">Redes sociales</label>
+                <div class="social-buttons">
+                    {% if estudiante.github %}
+                        <a href="{{ estudiante.github }}" rel="nofollow" class="button">GitHub</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

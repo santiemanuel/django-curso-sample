@@ -6,21 +6,24 @@
 
 {% block content %}
     <h1>{{ titulo }}</h1>
+    <a href="{% url 'create_curso' %}" class="btn btn-primary mb-3 ms-4">Crear Curso</a>
     <ul>
         {% for curso in cursos %}
-            <li>
-                <div class="curso-container">
-                    <div class="curso-title">{{ curso.nombre }}</div>
-                    <div class="curso-actions">
-                        <a href="{% url 'update_curso' curso.id %}" class="btn">Editar</a>
-                        <a href="{% url 'hide_curso' curso.id %}" class="btn btn-delete">Eliminar</a>
-                        <a href="{% url 'detail_curso' curso.id %}" class="btn">Detalles</a>
+            <a href="{% url 'detail_curso' curso.id %}" style="text-decoration: none; color: inherit;">
+                <li id="curso-li">
+                    <div class="curso-container">
+                        <div class="curso-title">{{ curso.nombre }}</div>
+                        <div class="curso-actions">
+                            <a href="{% url 'update_curso' curso.id %}" class="btn btn-primary">Editar</a>
+                            <a href="{% url 'hide_curso' curso.id %}" class="btn btn-danger">Eliminar</a>
+                            <a href="{% url 'detail_curso' curso.id %}" class="btn btn-info">Detalles</a>
+                        </div>
                     </div>
-                </div>
-                <div class="curso-details">
-                    Fecha de publicación: {{ curso.fecha_publicacion|date:"d/m/Y" }} | Precio: <strong>$ {{ curso.precio }}</strong>
-                </div>
-            </li>
+                    <div class="curso-details">
+                        Fecha de publicación: {{ curso.fecha_publicacion|date:"d/m/Y" }} | Precio: <strong>$ {{ curso.precio }}</strong>
+                    </div>
+                </li>
+            </a>
         {% empty %}
             <li>No hay cursos disponibles</li>
         {% endfor %}

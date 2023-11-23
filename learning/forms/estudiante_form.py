@@ -12,15 +12,31 @@ class EstudianteForm(forms.ModelForm):
 
     class Meta:
         model = Estudiante
-        fields = ['nombre', 'email', 'avatar']
+        fields = ['nombre', 
+                  'email',
+                  'avatar',
+                  'dob',
+                  'bio',
+                  'interest',
+                  'github']
+
         labels = {
             'nombre': 'Nombre',
             'email': 'Correo electrónico',
             'avatar': 'Imagen de perfil',
+            'dob': 'Fecha de nacimiento',
+            'bio': 'Biografía',
+            'interest': 'Intereses',
+            'github': 'GitHub',
         }
         widgets = {
-            'email': forms.EmailInput(attrs={'placeholder': 'Ingrese su correo'}),
-            'avatar': forms.ClearableFileInput(attrs={'placeholder': 'Seleccione una imagen de perfil'}),
+            'nombre': forms.TextInput(attrs={'placeholder': 'Ingrese su nombre', 'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'Ingrese su correo', 'class': 'form-control'}),
+            'avatar': forms.ClearableFileInput(attrs={'placeholder': 'Seleccione una imagen de perfil', 'class': 'form-control'}),
+            'dob': forms.NumberInput(attrs={'type':'date', 'placeholder': 'Ingrese la fecha de nacimiento', 'class': 'form-control'}),
+            'bio': forms.Textarea(attrs={'class': 'form-control'}),
+            'interest': forms.Textarea(attrs={'class': 'form-control'}),
+            'github': forms.URLInput(attrs={'class': 'form-control'}),
         }
 
 

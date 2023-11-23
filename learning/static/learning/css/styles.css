@@ -1,0 +1,100 @@
+body { 
+    font-family: Roboto, sans-serif;
+    line-height: 1.6;
+    margin: 20px; 
+}
+
+h1 { 
+    color: #333;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#curso-li {
+    background: #ffd5ae;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+    transition: all 0.2s ease-in-out;
+}
+
+#curso-li:hover {
+    transform: translateX(50px);
+    background: #ffbd7f;
+}
+
+.curso-nombre {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.curso-title {
+    font-size: 1.6em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.curso-details {
+    font-size: 0.8em;
+    color: #777;
+    margin-top: 4px;
+}
+
+.estudiante-item {
+    margin-bottom: 15px;
+}
+
+.estudiante-nombre a {
+    font-size: 1.2em;
+    text-decoration: none;
+    font-weight: bold;
+    color: #333;
+}
+
+.estudiante-email a {
+    text-decoration: none;
+    color: rgb(105, 121, 190);
+    font-size: 0.9em;
+}
+
+.estudiante-email a:hover,
+.estudiante-email a:focus {
+    text-decoration: underline;
+}
+
+.fecha-inscripcion {
+    font-size: 0.8em;
+    color: #777;
+    margin-top: 4px;
+}
+
+.curso-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.curso-actions {
+    margin: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+li:hover .curso-actions {
+    visibility: visible;
+    opacity: 1;
+}
+
+p {
+    color: #666;
+}
+
+a {
+    color: #8baccc;
+}

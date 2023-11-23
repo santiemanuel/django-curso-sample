@@ -25,9 +25,9 @@ class CursoForm(forms.ModelForm):
             'instructor': 'Instructor'
         }
         widgets = {
-            'nombre': forms.TextInput(attrs={'placeholder': 'Ingrese nombre del curso'}),
-            'descripcion': forms.Textarea(attrs={'placeholder': 'Ingrese la descripción'}),
-            'precio': forms.NumberInput(attrs={'placeholder': 'Ingrese el precio'}),
-            'fecha_publicacion': forms.NumberInput(attrs={'type':'date', 'placeholder': 'Ingrese la fecha'}),
+            'nombre': forms.TextInput(attrs={'placeholder': 'Ingrese nombre del curso', 'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'placeholder': 'Ingrese la descripción', 'class': 'form-control'}),
+            'precio': forms.NumberInput(attrs={'placeholder': 'Ingrese el precio', 'class': 'form-control'}),
+            'fecha_publicacion': forms.NumberInput(attrs={'type':'date', 'placeholder': 'Ingrese la fecha', 'class': 'form-control'}),
         }
 

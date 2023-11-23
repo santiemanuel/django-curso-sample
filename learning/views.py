@@ -109,6 +109,13 @@ def list_estudiantes(request):
     context = {'estudiantes': estudiantes, 'titulo': titulo}
     return render(request, "estudiante/estudiantes_list.html", context)
 
+def detail_estudiante(request, estudiante_id):
+    try:
+        estudiante = Estudiante.objects.get(pk=estudiante_id)
+        context = {'estudiante': estudiante}
+        return render(request, 'estudiante/estudiante_detail.html', context)
+    except Estudiante.DoesNotExist:
+        return HttpResponse("Estudiante no encontrado", status=404)
 
 def create_estudiante(request):
     if request.method == 'POST':

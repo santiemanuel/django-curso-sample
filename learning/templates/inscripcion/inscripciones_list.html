@@ -8,7 +8,7 @@
     <h1>{{ titulo }}</h1>
     <ul>
         {% for inscripcion in inscripciones %}
-            <li>
+            <li id="curso-li">
                 {{ inscripcion.estudiante.nombre }} inscrito en {{ inscripcion.curso.nombre }}
             </li>
         {% empty %}
