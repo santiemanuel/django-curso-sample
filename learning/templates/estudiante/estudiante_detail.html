@@ -1,63 +1,71 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil</title>
+{% block css %}
+    {{ block.super }}
     <link rel="stylesheet" href="{% static 'learning/css/style-student.css' %}"> <!-- Link to your external CSS file -->
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
-</head>
-<body>
+{% endblock %}
 
-<div class="card">
-    <div class="header">
-        <div class="header-content-top"></div>
-        <div class="header-content-bottom animate-gradient">
-            <div class="header-content">
-                <span class="avatar">
-                    {% if estudiante.avatar %}
-                        <img src="{{ estudiante.avatar.url }}" alt="Avatar" class="avatar-inner">
-                    {% else %}
-                        <span class="avatar-inner">{{ estudiante.nombre }}</span>
-                    {% endif %}
-                </span>
-                <div class="info">
-                    <div>
-                        <h1 class="name">{{ estudiante.nombre }}</h1>
-                        <p class="email">{{ estudiante.email }}</p>
+{% block title %}{{ estudiante.nombre }}{% endblock %}
+
+{% block content %}
+    <div class="card container">
+        <div class="header">
+            <div class="header-content-top"></div>
+            <div class="header-content-bottom animate-gradient">
+                <div class="header-content">
+                    <span class="avatar">
+                        {% if estudiante.avatar %}
+                            <img src="{{ estudiante.avatar.url }}" alt="Avatar" class="avatar-inner">
+                        {% else %}
+                            <span class="avatar-inner">{{ estudiante.nombre }}</span>
+                        {% endif %}
+                    </span>
+                    <div class="info">
+                        <div>
+                            <h1 class="name">{{ estudiante.nombre }}</h1>
+                            <p class="email">{{ estudiante.email }}</p>
+                        </div>
+                        <i class="edit fa-regular fa-pen-to-square"></i>
                     </div>
-                    <i class="edit fa-regular fa-pen-to-square"></i>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="grid">
-        <div class="item">
-            <label class="label">Nacimiento</label>
-            <p class="value">{{ estudiante.dob }}</p>
-        </div>
-        <div class="item">
-            <label class="label">Biografía</label>
-            <p class="value">{{ estudiante.bio }}</p>
-        </div>
-        <div class="item">
-            <label class="label">Intereses</label>
-            <p class="value">{{ estudiante.interest }}</p>
-        </div>
-        <div class="item">
-            <label class="label">Redes sociales</label>
-            <div class="social-buttons">
-                {% if estudiante.github %}
-                    <a href="{{ estudiante.github }}" rel="nofollow" class="button">GitHub</a>
+        <div class="grid">
+            <div class="item">
+                <label class="label">Nacimiento</label>
+                <p class="value">{{ estudiante.dob }}</p>
+            </div>
+            <div class="item">
+                <label class="label">Biografía</label>
+                {% if estudiante.bio %}
+                    <p class="value">{{ estudiante.bio }}</p>
+                {% else %}
+                    <p class="value">Sin especificar</p>
                 {% endif %}
             </div>
+            <div class="item">
+                <label class="label">Intereses</label>
+                {% if estudiante.interest %}
+                <p class="value">{{ estudiante.interest }}</p>
+                {% else %}
+                    <p class="value">Sin especificar</p>
+                {% endif %}
+
+            </div>
+            <div class="item">
+                <label class="label">Redes sociales</label>
+                <div class="social-buttons">
+                    {% if estudiante.github %}
+                        <a href="{{ estudiante.github }}" rel="nofollow" class="button">GitHub</a>
+                    {% else %}
+                        <p class="value">Sin especificar</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="d-grid gap-2 col-4 mx-auto">
+            <a href="{% url 'list_estudiantes' %}" class="btn btn-primary mb-3 ms-4">Volver</a>
         </div>
     </div>
-</div>
-
-</body>
-</html>
+{% endblock %}

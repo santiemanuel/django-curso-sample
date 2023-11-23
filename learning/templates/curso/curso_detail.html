@@ -12,13 +12,14 @@
 
 {% block content %}
     {% if curso %}
-        <h1>Detalle del Curso: {{ curso.nombre }}</h1>
-        <img src="{% static 'learning/img/foto.png' %}" alt="curso"/>
-        <p><strong>Descripción:</strong>{{ curso.descripcion }}</p>
-        <p><strong>Precio: $</strong> {{ curso.precio }} </p>
-        <p><strong>Fecha de Publicación:</strong> {{ curso.fecha_publicacion }}</p>
+        <h1 class="mb-3">Detalle del Curso: {{ curso.nombre }}</h1>
+        <img class="mb-3" src="{% static 'learning/img/foto.png' %}" alt="curso"/>
+        <p class="mb-3"><strong>Descripción: </strong>{{ curso.descripcion|linebreaks }}</p>
+        <p class="mb-3"><strong>Precio: $</strong> {{ curso.precio }} </p>
+        <p class="mb-3"><strong>Fecha de Publicación: </strong>{{ curso.fecha_publicacion }}</p>
     {% else %}
         <h1>Error. El ID de curso no existe.</h1>
     {% endif %}
+    <a href="{% url 'list_cursos' %}" class="btn btn-secondary">Regresar</a>
 {% endblock %}
 

@@ -2,13 +2,15 @@
 <!DOCTYPE html>
 <html>
     <head>
+        
         <link rel="stylesheet" type="text/css" href="{% static 'learning/css/styles.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'learning/css/bootstrap.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'learning/css/navbar.css' %}">
-        <link rel="stylesheet" href="{% static 'learning/css/style-student.css' %}">
+        {% block css %}
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-        <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
-        <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="{% static 'fontawesomefree/css/fontawesome.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'fontawesomefree/css/solid.css' %}">
+        {% endblock %}
         <title>
             {% block title %}
                 Plataforma de Aprendizaje
@@ -19,7 +21,10 @@
         <header>
             {% include 'navbar.html' %}
         </header>
-        {% block content %}{% endblock %}
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
     </body>
     <script src="{% static 'learning/js/bootstrap.js' %}"></script>
 </html>

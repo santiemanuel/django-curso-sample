@@ -40,7 +40,7 @@ urlpatterns = [
      path("estudiantes/<int:estudiante_id>/",
          views.detail_estudiante,
          name="detail_estudiante"),    
-    path("estudiantes/crear",
+    path("estudiantes/crear/",
          views.create_estudiante,
          name="create_estudiante"),
     # Inscripciones

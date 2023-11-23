@@ -11,6 +11,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button class="btn btn-primary" type="submit">{{ submit }}</button>
+            <a href="{% url 'list_estudiantes' %}" class="btn btn-secondary">Volver</a>
         </form>
     </div>
 {% endblock %}

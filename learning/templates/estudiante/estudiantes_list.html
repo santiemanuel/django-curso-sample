@@ -6,10 +6,14 @@
 
 {% block content %}
     <h1>{{ titulo }}</h1>
+    <a href="{% url 'create_estudiante' %}" class="btn btn-primary mb-3 ms-4">Crear Estudiante</a>
     <ul>
         {% for estudiante in estudiantes %}
-            <li id="curso-li">
-                {{ estudiante.nombre }} - <a href="{{ estudiante.email }}">{{ estudiante.email}}</a>
+            <li id="curso-li" class="estudiante-item">
+                <div class="estudiante-nombre">
+                    <a href="{% url 'detail_estudiante' estudiante.id %}">{{ estudiante.nombre }}</a>
+                </div>
+                <div class="estudiante-email"><a href="mailto:{{ estudiante.email }}">{{ estudiante.email }}</a></div>
             </li>
         {% empty %}
             <li>No hay estudiantes disponibles</li>
