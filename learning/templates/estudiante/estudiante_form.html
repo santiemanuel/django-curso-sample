@@ -5,10 +5,12 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{{ titulo }}</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">{{ submit }}</button>
-    </form>
+    <div class="container card card-body mx-auto px-40 my-5">
+        <h1>{{ titulo }}</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary" type="submit">{{ submit }}</button>
+        </form>
+    </div>
 {% endblock %}

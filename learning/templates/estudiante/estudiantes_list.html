@@ -8,7 +8,7 @@
     <h1>{{ titulo }}</h1>
     <ul>
         {% for estudiante in estudiantes %}
-            <li>
+            <li id="curso-li">
                 {{ estudiante.nombre }} - <a href="{{ estudiante.email }}">{{ estudiante.email}}</a>
             </li>
         {% empty %}
