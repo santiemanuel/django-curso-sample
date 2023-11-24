@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load markdown_extras %}
 
 {% block title %}
     {% if curso %}
@@ -14,7 +15,7 @@
     {% if curso %}
         <h1 class="mb-3">Detalle del Curso: {{ curso.nombre }}</h1>
         <img class="mb-3" src="{% static 'learning/img/foto.png' %}" alt="curso"/>
-        <p class="mb-3"><strong>Descripción: </strong>{{ curso.descripcion|linebreaks }}</p>
+        <p class="mb-3"><strong>Descripción: </strong>{{ curso.descripcion|markdown|safe }}</p>
         <p class="mb-3"><strong>Precio: $</strong> {{ curso.precio }} </p>
         <p class="mb-3"><strong>Fecha de Publicación: </strong>{{ curso.fecha_publicacion }}</p>
     {% else %}

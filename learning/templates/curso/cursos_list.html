@@ -7,7 +7,7 @@
 {% block content %}
     <h1>{{ titulo }}</h1>
     <a href="{% url 'create_curso' %}" class="btn btn-primary mb-3 ms-4">Crear Curso</a>
-    <ul>
+    <ul id="curso-ul">
         {% for curso in cursos %}
             <a href="{% url 'detail_curso' curso.id %}" style="text-decoration: none; color: inherit;">
                 <li id="curso-li">

@@ -3,9 +3,10 @@ from .models import Curso
 from .models import Estudiante
 from .models import Inscripcion
 from .models import Instructor
-
+from .models import CustomUser
 # Register your models here.
 
+admin.site.register(CustomUser)
 
 @admin.register(Curso)
 class CursoAdmin(admin.ModelAdmin):

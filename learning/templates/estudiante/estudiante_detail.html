@@ -26,7 +26,11 @@
                             <h1 class="name">{{ estudiante.nombre }}</h1>
                             <p class="email">{{ estudiante.email }}</p>
                         </div>
-                        <i class="edit fa-regular fa-pen-to-square"></i>
+                        <a href="{% url 'update_estudiante' estudiante.id %}" rel="nofollow">
+                            <span title="Editar">
+                                <i class="edit fa-regular fa-pen-to-square"></i>
+                            </span>
+                        </a>
                     </div>
                 </div>
             </div>

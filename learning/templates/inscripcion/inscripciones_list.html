@@ -6,7 +6,7 @@
 
 {% block content %}
     <h1>{{ titulo }}</h1>
-    <ul>
+    <ul id="curso-ul">
         {% for inscripcion in inscripciones %}
             <li id="curso-li">
                 {{ inscripcion.estudiante.nombre }} inscrito en {{ inscripcion.curso.nombre }}
