@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.query import QuerySet
+from django.contrib.auth.models import AbstractUser
 
 
 class FreeCoursesManager(models.Manager):
@@ -30,8 +31,19 @@ class CursoByTopicManager(models.Manager):
         # Este es un ejemplo simple. En la realidad, deberíamos crear un campo o modelo independiente para los temas.
         return self.filter(nombre__icontains=topic_name)
 
+class CustomUser(AbstractUser):
+    ESTUDIANTE = 'estudiante'
+    INSTRUCTOR = 'instructor'
+
+    ROLE_CHOICES = [
+        (ESTUDIANTE, 'Estudiante'),
+        (INSTRUCTOR, 'Instructor'),
+    ]
+
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default=ESTUDIANTE)
 
 class Instructor(models.Model):
+    usuario = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100)
     bio = models.TextField()
 
@@ -40,6 +52,7 @@ class Instructor(models.Model):
 
 
 class Estudiante(models.Model):
+    usuario = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=150)
     email = models.EmailField(unique=True)
     avatar = models.ImageField(upload_to="avatar", null=True, blank=True)

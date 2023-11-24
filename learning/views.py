@@ -7,6 +7,20 @@ from .forms.estudiante_form import EstudianteForm, BusquedaEstudianteForm
 from .forms.curso_form import CursoForm
 from .forms.inscripcion_form import InscripcionForm
 
+from django.contrib.auth import get_user_model, logout
+from django.contrib.auth.views import LoginView
+from .forms.login_form import CustomLoginForm
+# Autenticación
+
+class CustomLoginView(LoginView):
+    template_name = "estudiante/estudiante_login.html"
+    form_class = CustomLoginForm
+    redirect_authenticated_user = True
+
+def logout_view(request):
+    logout(request)
+
+    return redirect('list_estudiantes')
 
 # Cursos
 
@@ -15,7 +29,17 @@ def list_cursos(request):
     Listado de cursos no eliminados
     """
     cursos = Curso.objects.filter(is_deleted=False)
-    context = {'cursos': cursos, 'titulo': 'Listado de Cursos'}
+
+    busqueda = request.GET.get('search', '')
+
+    if busqueda:
+        cursos = Curso.objects.filter(descripcion__icontains=busqueda)
+
+    context = {
+        'cursos': cursos, 
+        'titulo': 'Listado de Cursos',
+        'busqueda': busqueda,
+    }
     return render(request, "curso/cursos_list.html", context)
 
 def detail_curso(request, curso_id):
@@ -121,7 +145,22 @@ def create_estudiante(request):
     if request.method == 'POST':
         form = EstudianteForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            User = get_user_model()
+
+            email = form.cleaned_data["email"]
+
+            user = User.objects.create_user(username=email, email=email)
+        
+            nombre = form.cleaned_data['nombre']
+            nombre_split = nombre.split(' ')
+            user.first_name = nombre_split[0]
+            user.last_name = nombre_split[-1]
+            user.set_password('default')
+            user.save()
+
+            estudiante = form.save(commit=False)
+            estudiante.usuario = user
+            estudiante.save()
             return redirect("list_estudiantes")
     else:
         form = EstudianteForm()
@@ -130,6 +169,25 @@ def create_estudiante(request):
         'titulo': "Nuevo Estudiante",
         'form': form,
         'submit': 'Crear Estudiante'
+    }
+    return render(request, "estudiante/estudiante_form.html", context)
+
+def update_estudiante(request, estudiante_id):
+    """
+    Actualización de un estudiante
+    """
+    estudiante = get_object_or_404(Estudiante, id=estudiante_id)
+    if request.method == 'POST':
+        form = EstudianteForm(request.POST, instance=estudiante)
+        if form.is_valid():
+            form.save()
+            return redirect("list_estudiantes")
+    else:
+        form = EstudianteForm(instance=estudiante)
+    context = {
+        'titulo': "Actualización de Estudiante",
+        'form': form,
+        'submit': 'Actualizar Estudiante'
     }
     return render(request, "estudiante/estudiante_form.html", context)
 

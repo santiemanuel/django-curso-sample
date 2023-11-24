@@ -6,8 +6,23 @@
 
 {% block content %}
     <h1>{{ titulo }}</h1>
-    <a href="{% url 'create_estudiante' %}" class="btn btn-primary mb-3 ms-4">Crear Estudiante</a>
-    <ul>
+    <div>
+        {% if user.is_authenticated %}
+            <!-- Si el usuario ha iniciado sesión, muestra su nombre y el botón de cerrar sesión -->
+            <span>Bienvenido, {{ user.get_full_name|default:user.email }}</span>
+            <a href="{% url 'logout' %}" class="btn btn-secondary">Cerrar Sesión</a>
+        {% else %}
+            <!-- Si el usuario no ha iniciado sesión, muestra solo el botón de iniciar sesión -->
+            <a href="{% url 'login' %}" class="btn btn-primary">Iniciar Sesión</a>
+        {% endif %}
+    </div>
+    {% if user.is_authenticated %}
+        {% if user.role == 'estudiante' %}
+        <!-- Botón para crear estudiante -->
+        <a href="{% url 'create_estudiante' %}" class="btn btn-primary mb-3 ms-4">Crear Estudiante</a>
+        {% endif %}
+    {% endif %}
+    <ul id="curso-ul">
         {% for estudiante in estudiantes %}
             <li id="curso-li" class="estudiante-item">
                 <div class="estudiante-nombre">

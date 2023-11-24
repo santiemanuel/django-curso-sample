@@ -8,6 +8,11 @@ register_converter(converters.DateRangeConverter, "daterange")
 
 
 urlpatterns = [
+    # Autenticación
+
+    path("login/", views.CustomLoginView.as_view(), name='login'),
+    path("logout/", views.logout_view, name="logout"),
+
     # Cursos
     path("cursos/", 
          views.list_cursos,
@@ -34,37 +39,40 @@ urlpatterns = [
          views.list_cursos_eliminados,
          name="list_cursos_eliminados"),
     # Estudiantes 
-    path("estudiantes/",
+     path("estudiantes/",
          views.list_estudiantes,
          name="list_estudiantes"),
      path("estudiantes/<int:estudiante_id>/",
          views.detail_estudiante,
          name="detail_estudiante"),    
-    path("estudiantes/crear/",
+     path("estudiantes/crear/",
          views.create_estudiante,
          name="create_estudiante"),
+     path("estudiantes/actualizar/<int:estudiante_id>/",
+         views.update_estudiante,
+         name="update_estudiante"),
     # Inscripciones
-    path("inscripciones/",
+     path("inscripciones/",
          views.list_inscripciones,
          name="list_inscripciones"),
-    path("inscripcion/",
+     path("inscripcion/",
          views.inscripcion,
          name="inscribir"),
-    path("inscripcion-nombre/",
+     path("inscripcion-nombre/",
          views.inscripcion_por_nombre,
          name="inscribir-nombre"),
     # Informes inscripciones/estudiantes
-    path(
+     path(
         "estudiantes/<int:estudiante_id>/cursos/",
         views.estudiante_cursos,
         name="estudiante_cursos",
     ),
-    path(
+     path(
         "cursos/<int:curso_id>/estudiantes/",
         views.curso_estudiantes,
         name="curso_estudiantes",
     ),
-    path(
+     path(
         "cursos/<daterange:date_range>/",
         views.cursos_por_fecha,
         name="cursos-por-fecha",
