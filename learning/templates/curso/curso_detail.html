@@ -15,7 +15,19 @@
     {% if curso %}
         <h1 class="mb-3">Detalle del Curso: {{ curso.nombre }}</h1>
         <img class="mb-3" src="{% static 'learning/img/foto.png' %}" alt="curso"/>
-        <p class="mb-3"><strong>Descripción: </strong>{{ curso.descripcion|markdown|safe }}</p>
+        <div class="curso-desc">
+            <div class="row">
+                <div class="col-md-9">
+                    {{ curso.descripcion|markdown|safe }}
+                </div>
+                <div id="toc-bar" class="col-md-3">
+                    <div class="toc-sidebar">
+                        <h3>Tabla de Contenido</h3>
+                        {{ curso.descripcion|markdown_toc|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
         <p class="mb-3"><strong>Precio: $</strong> {{ curso.precio }} </p>
         <p class="mb-3"><strong>Fecha de Publicación: </strong>{{ curso.fecha_publicacion }}</p>
     {% else %}

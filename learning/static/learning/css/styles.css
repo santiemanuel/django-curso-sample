@@ -14,6 +14,31 @@ h1 {
     padding: 0;
 }
 
+.nav-bullet {
+    list-style-type: none;
+    padding: 0;
+}
+
+
+div.curso-desc ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+div.curso-desc ul li::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-image: url('https://info.openpath.com/hubfs/checkmark-round-orange.svg');
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+div.curso-desc ul ul {
+    padding-left: 34px;
+}
+
 #curso-li {
     background: #ffd5ae;
     margin: 5px 0;
@@ -98,3 +123,55 @@ p {
 a {
     color: #8baccc;
 }
+
+.note {
+    background-color: #CFD4FC;
+    border-left: 3px solid #0F1C8A;
+    padding: 0.5em;
+    margin-bottom: 1em;
+}
+
+.note h5 {
+    color: #0F1C8A;
+    vertical-align: middle;
+}
+
+.note h5::before {
+    content: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHN0cm9rZS13aWR0aD0iMS41IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgY29sb3I9IiMwMDAwMDAiPjxwYXRoIGQ9Ik0xMiAxMS41VjE2LjUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PC9wYXRoPjxwYXRoIGQ9Ik0xMiA3LjUxTDEyLjAxIDcuNDk4ODkiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PC9wYXRoPjxwYXRoIGQ9Ik0xMiAyMkMxNy41MjI4IDIyIDIyIDE3LjUyMjggMjIgMTJDMjIgNi40NzcxNSAxNy41MjI4IDIgMTIgMkM2LjQ3NzE1IDIgMiA2LjQ3NzE1IDIgMTJDMiAxNy41MjI4IDYuNDc3MTUgMjIgMTIgMjJaIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjwvcGF0aD48L3N2Zz4=");
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+h1 a.headerlink, 
+h2 a.headerlink, 
+h3 a.headerlink, 
+h4 a.headerlink, 
+h5 a.headerlink, 
+h6 a.headerlink {
+    text-decoration: none;
+    visibility: hidden;
+    color: #ffbd7f;
+    content: "¶";
+}
+
+h1:hover a.headerlink, 
+h2:hover a.headerlink, 
+h3:hover a.headerlink, 
+h4:hover a.headerlink, 
+h5:hover a.headerlink, 
+h6:hover a.headerlink {
+    visibility: visible;
+}
+
+.toc-sidebar {
+    position: fixed;
+    top: 100px;
+    right: 200px;
+    width: 300px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
