@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.query import QuerySet
 from django.contrib.auth.models import AbstractUser
+from django.utils.text import slugify
 
 
 class FreeCoursesManager(models.Manager):
@@ -75,10 +76,17 @@ class Curso(models.Model):
     inscripciones = models.ManyToManyField(Estudiante, through="Inscripcion")
     is_deleted = models.BooleanField(default=False)
 
+    slug = models.SlugField(max_length=120, unique=True, null=True, blank=True)
+
     # free_courses = FreeCoursesManager()
     # premium_courses = PremiumCoursesManager()
     # by_year = CursoByYearManager()
     # by_topic = CursoByTopicManager()
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nombre)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.nombre}"

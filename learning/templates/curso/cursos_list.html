@@ -9,14 +9,14 @@
     <a href="{% url 'create_curso' %}" class="btn btn-primary mb-3 ms-4">Crear Curso</a>
     <ul id="curso-ul">
         {% for curso in cursos %}
-            <a href="{% url 'detail_curso' curso.id %}" style="text-decoration: none; color: inherit;">
+            <a href="{% url 'detail_curso_slug' curso.slug %}" style="text-decoration: none; color: inherit;">
                 <li id="curso-li">
                     <div class="curso-container">
                         <div class="curso-title">{{ curso.nombre }}</div>
                         <div class="curso-actions">
                             <a href="{% url 'update_curso' curso.id %}" class="btn btn-primary">Editar</a>
                             <a href="{% url 'hide_curso' curso.id %}" class="btn btn-danger">Eliminar</a>
-                            <a href="{% url 'detail_curso' curso.id %}" class="btn btn-info">Detalles</a>
+                            <a href="{% url 'detail_curso_slug' curso.slug %}" class="btn btn-info">Detalles</a>
                         </div>
                     </div>
                     <div class="curso-details">

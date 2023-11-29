@@ -53,6 +53,14 @@ def detail_curso(request, curso_id):
 
     return render(request, 'curso/curso_detail.html', {'curso': curso})
 
+def detail_curso_slug(request, slug):
+    try:
+        curso = Curso.objects.get(slug=slug)
+    except Curso.DoesNotExist:
+        curso = None
+
+    return render(request, 'curso/curso_detail.html', {'curso': curso})
+
 def create_curso(request):
     """
     Creación de un curso
