@@ -58,6 +58,14 @@
 
             </div>
             <div class="item">
+                <label class="label">Habilidades</label>
+                {% if estudiante.habilidades %}
+                <p class="value">{{ estudiante.habilidades }}</p>
+                {% else %}
+                    <p class="value">Sin especificar</p>
+                {% endif %}
+            </div>
+            <div class="item">
                 <label class="label">Redes sociales</label>
                 <div class="social-buttons">
                     {% if estudiante.github %}
@@ -65,7 +73,20 @@
                     {% else %}
                         <p class="value">Sin especificar</p>
                     {% endif %}
+                    {% if estudiante.facebook %}
+                    <a href="{{ estudiante.facebook }}" rel="nofollow" class="button">Facebook</a>
+                    {% else %}
+                        <p class="value">Sin especificar</p>
+                    {% endif %}
                 </div>
+            </div>
+            <div class="item">
+                <label class="label">Nivel Educativo</label>
+                {% if estudiante.nivel_educativo %}
+                    <p class="value">{{ estudiante.get_nivel_educativo_display }}</p>
+                {% else %}
+                    <p class="value">Sin especificar</p>
+                {% endif %}
             </div>
         </div>
         <div class="d-grid gap-2 col-4 mx-auto">

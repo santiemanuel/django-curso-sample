@@ -1,17 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    Nuevo Estudiante
-{% endblock %}
-
 {% block content %}
-    <div class="container card card-body mx-auto px-40 my-5">
-        <h1>{{ titulo }}</h1>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button class="btn btn-primary" type="submit">{{ submit }}</button>
-            <a href="{% url 'list_estudiantes' %}" class="btn btn-secondary">Volver</a>
-        </form>
-    </div>
+<div class="container card card-body mx-auto px-40 my-5">
+    <h1>{{ titulo }}</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if previous_step is not None %}
+            <!-- Asegúrate de que la URL es correcta para "Paso Anterior" -->
+            <a href="{% url 'create_estudiante' %}?prev_step={{ previous_step }}" class="btn btn-secondary">Paso Anterior</a>
+        {% endif %}
+        <button class="btn btn-primary" type="submit">{{ submit }}</button>
+    </form>
+</div>
 {% endblock %}
