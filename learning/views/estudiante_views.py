@@ -107,8 +107,7 @@ def create_estudiante(request):
     else:
         initial_data = {}
         for key in request.session.keys():
-            if key != '_auth_user_id' and key != '_auth_user_backend' and key != '_auth_user_hash':
-                initial_data[key] = request.session[key]
+            initial_data[key] = request.session[key]
 
         if 'dob' in initial_data and initial_data['dob']:
             initial_data['dob'] = datetime.strptime(initial_data['dob'], '%Y-%m-%d').date()
