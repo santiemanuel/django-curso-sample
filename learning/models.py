@@ -1,35 +1,8 @@
 from django.db import models
 from django.db.models.query import QuerySet
 from django.contrib.auth.models import AbstractUser
+from django.utils.text import slugify
 
-
-class FreeCoursesManager(models.Manager):
-    """Manager para obtener todos los cursos gratis."""
-
-    def get_queryset(self):
-        return super().get_queryset().filter(precio=0)
-
-
-class PremiumCoursesManager(models.Manager):
-    """Manager para obtener todos los cursos premium."""
-
-    def get_queryset(self):
-        return super().get_queryset().filter(precio__gt=600)
-
-
-class CursoByYearManager(models.Manager):
-    """Manager para obtener los cursos por año."""
-
-    def courses_in_year(self, year):
-        return self.filter(fecha_publicacion__year=year)
-
-
-class CursoByTopicManager(models.Manager):
-    """Manager para obtener los cursos por temática."""
-
-    def courses_for_topic(self, topic_name):
-        # Este es un ejemplo simple. En la realidad, deberíamos crear un campo o modelo independiente para los temas.
-        return self.filter(nombre__icontains=topic_name)
 
 class CustomUser(AbstractUser):
     ESTUDIANTE = 'estudiante'
@@ -41,6 +14,7 @@ class CustomUser(AbstractUser):
     ]
 
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default=ESTUDIANTE)
+
 
 class Instructor(models.Model):
     usuario = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
@@ -65,7 +39,6 @@ class Estudiante(models.Model):
         return f"{self.nombre} ({self.email})"
 
 
-# Create your models here.
 class Curso(models.Model):
     nombre = models.CharField(max_length=120)
     descripcion = models.TextField()
@@ -75,10 +48,12 @@ class Curso(models.Model):
     inscripciones = models.ManyToManyField(Estudiante, through="Inscripcion")
     is_deleted = models.BooleanField(default=False)
 
-    # free_courses = FreeCoursesManager()
-    # premium_courses = PremiumCoursesManager()
-    # by_year = CursoByYearManager()
-    # by_topic = CursoByTopicManager()
+    slug = models.SlugField(max_length=120, unique=True, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nombre)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.nombre}"
